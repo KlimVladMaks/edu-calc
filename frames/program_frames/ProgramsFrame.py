@@ -1,12 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 from frames.BaseFrame import BaseFrame
-from frames.program_frames.AddProgramFrame import AddProgramFrame
-from frames.program_frames.EditProgramFrame import EditProgramFrame
 from widgets.Table import Table
 from database.Database import Database
 from widgets.BackButton import BackButton
-
 
 class ProgramsFrame(BaseFrame):
     """
@@ -22,7 +19,6 @@ class ProgramsFrame(BaseFrame):
         self.back_button = BackButton(self.master, command=self.go_back)
         ttk.Label(self, text="Учебные программы").pack(pady=10)
         self.create_table()
-        ttk.Button(self, text="Добавить учебную программу", command=self.open_add_program).pack(pady=10)
     
     def go_back(self):
         self.back_button.destroy()
@@ -31,62 +27,30 @@ class ProgramsFrame(BaseFrame):
     
     def create_table(self):
         columns = [
-            ("Название", 150),
-            ("Теория", 100),
-            ("Практика", 100),
-            ("Экзамены", 100),
-            ("Всего", 100)
+            ["Название", 150],
+            ["Всего дней", 100]
         ]
+        unique_stages_names = self.db.programs.get_unique_stages_names()
+        for stage_name in unique_stages_names:
+            column = []
+            column.append(stage_name)
+            column.append(100)
+            columns.append(column)
         self.table = Table(self, columns)
-        self.table_data = self.get_table_data()
-        self.table.add_rows(self.table_data)
+
+        table_rows = []
+        programs_names = self.db.programs.get_all_programs_names()
+        for program_name in programs_names:
+            table_row = []
+            table_row.append(program_name)
+            total_days = self.db.programs.get_total_days(program_name)
+            table_row.append(total_days)
+            for stage_name in unique_stages_names:
+                number_of_days = self.db.programs.get_number_of_days_for_stage(program_name, stage_name)
+                table_row.append(number_of_days)
+
+            table_rows.append(table_row)
+
+        self.table.add_rows(table_rows)
+
         self.table.pack()
-
-        self.create_context_menu()
-    
-    def get_table_data(self):
-        table_data = []
-        programs_data = self.db.programs.get_all()
-        for data in programs_data:
-            table_data.append(data)
-        for data in table_data:
-            total_days = data[1] + data[2] + data[3]
-            data.append(total_days)
-        return table_data
-    
-    def create_context_menu(self):
-        self.menu = tk.Menu(self, tearoff=0)
-        self.menu.add_command(label="Изменить", command=self.open_edit_program)
-        self.menu.add_command(label="Удалить", command=self.delete_selected)
-        self.table.tree.bind("<Button-3>", self.show_context_menu)
-    
-    def open_edit_program(self):
-        selected_items = self.table.tree.selection()
-        item = selected_items[0]
-        item_data = self.table.tree.item(item)
-        values = item_data["values"]
-        program_data = self.db.programs.get(str(values[0]))
-        edit_program_frame = EditProgramFrame(self.master, self, program_data)
-        edit_program_frame.display_frame()
-
-    def delete_selected(self):
-        selected_items = self.table.tree.selection()
-        for item in selected_items:
-            item_data = self.table.tree.item(item)
-            values = item_data["values"]
-            self.db.programs.delete(str(values[0]))
-            self.table.tree.delete(item)
-    
-    def show_context_menu(self, event):
-        row_id = self.table.tree.identify_row(event.y)
-        if row_id:
-            self.table.tree.selection_set(row_id)
-            self.menu.post(event.x_root, event.y_root)
-    
-    def open_add_program(self):
-        add_program_frame = AddProgramFrame(self.master, self)
-        add_program_frame.display_frame()
-    
-    def update(self):
-        new_table_data = self.get_table_data()
-        self.table.update(new_table_data)
