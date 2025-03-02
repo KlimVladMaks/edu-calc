@@ -20,6 +20,42 @@ class AddProgramFrame(BaseFrame):
         self.back_button = BackButton(self.master, command=self.go_back)
         self.back_button.pack()
 
+        self.create_canvas()
+
+        ttk.Label(self.scrollable_frame, text="Добавить учебную программу").pack(pady=10)
+
+        ttk.Label(self.scrollable_frame, text="Название программы:").pack(pady=(10, 0))
+        self.name_entry = ttk.Entry(self.scrollable_frame, width=50)
+        self.name_entry.pack(pady=(0, 10))
+
+        self.create_combobox()
+
+        self.stages_constructor = StagesConstructor(self.scrollable_frame, self.canvas)
+        self.stages_constructor.pack()
+
+        ttk.Label(self.scrollable_frame, text="Всего учебных дней: 0").pack(pady=10)
+
+        ttk.Button(self.scrollable_frame,
+                   text="Сохранить учебную программу",
+                   command=self.save_program).pack(pady=10)
+    
+    def go_back(self):
+        self.back_button.destroy()
+        self.destroy()
+        self.parent_frame.display_frame()
+    
+    def on_mouse_wheel(self, event):
+        self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+    
+    def save_program(self):
+        program_name = self.name_entry.get()
+        type = self.edu_type_combobox.get()
+        stages = self.stages_constructor.get_stages()
+        self.db.programs.add([program_name, type, stages])
+        self.parent_frame.update_table()
+        self.go_back()
+
+    def create_canvas(self):
         self.window_width = self.master.winfo_width()
         self.window_height = self.master.winfo_height()
         self.canvas = tk.Canvas(self,
@@ -44,22 +80,9 @@ class AddProgramFrame(BaseFrame):
         self.scrollbar.pack(side="right", fill="y")
 
         self.canvas.bind_all("<MouseWheel>", self.on_mouse_wheel)
-
-        ttk.Label(self.scrollable_frame, text="Добавить учебную программу").pack(pady=10)
-
-        ttk.Label(self.scrollable_frame, text="Название программы:").pack(pady=(10, 0))
-        self.name_entry = ttk.Entry(self.scrollable_frame, width=50)
-        self.name_entry.pack(pady=(0, 10))
-
-        ttk.Label(self.scrollable_frame, text="Всего дней: 0").pack(pady=10)
-
-        self.stages_constructor = StagesConstructor(self.scrollable_frame, self.canvas)
-        self.stages_constructor.pack()
     
-    def go_back(self):
-        self.back_button.destroy()
-        self.destroy()
-        self.parent_frame.display_frame()
-    
-    def on_mouse_wheel(self, event):
-        self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+    def create_combobox(self):
+        ttk.Label(self.scrollable_frame, text="Вид обучения:").pack(pady=(10, 0))
+        edu_types = self.db.edu_types.get_all()
+        self.edu_type_combobox = ttk.Combobox(self.scrollable_frame, values=edu_types, width=50, state="readonly")
+        self.edu_type_combobox.pack(pady=(0, 10))

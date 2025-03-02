@@ -92,3 +92,6 @@ class Table:
         region = self.tree.identify_region(event.x, event.y)
         if region == "nothing":
             self.tree.selection_remove(self.tree.selection())
+
+    def destroy(self):
+        self.table_frame.destroy()

@@ -1,0 +1,23 @@
+import json
+
+
+class EduTypesDatabase:
+    """
+    База данных для работы с видами обучения.
+    """
+    def __init__(self):
+        self.filename = 'database.json'
+        self.load_data()
+    
+    def load_data(self):
+        with open(self.filename, 'r', encoding='utf-8') as file:
+            self.data = json.load(file)
+    
+    def save_data(self):
+        with open(self.filename, 'w', encoding='utf-8') as file:
+            json.dump(self.data, file, ensure_ascii=False, indent=4)
+    
+    def get_all(self):
+        self.load_data()
+        edu_types = self.data.get("edu_types", [])
+        return edu_types

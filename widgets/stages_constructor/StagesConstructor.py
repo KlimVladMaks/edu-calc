@@ -32,7 +32,7 @@ class StagesConstructor:
         self.add_stage_button = ttk.Button(self.sc_frame,
                                            text="+ Добавить этап",
                                            command=self.add_new_stage)
-        self.add_stage_button.pack(pady=10)
+        self.add_stage_button.pack(pady=(10, 0))
 
         self.sc_frame.update_idletasks()
         self.canvas.yview_moveto(1)
@@ -89,3 +89,12 @@ class StagesConstructor:
         stage.name_entry.insert(0, l_name)
         stage.days_entry.delete(0, tk.END)
         stage.days_entry.insert(0, l_days)
+    
+    def get_stages(self):
+        stages_data = []
+        for stage in self.stages_list:
+            stage_data = []
+            stage_data.append(stage.name_entry.get())
+            stage_data.append(int(stage.days_entry.get()))
+            stages_data.append(stage_data)
+        return stages_data

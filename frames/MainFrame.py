@@ -27,6 +27,11 @@ class MainFrame(BaseFrame):
                   padding=(0, button_height)).pack(pady=padding_between_buttons)
 
         ttk.Button(self,
+                  text="Виды обучения",
+                  width=button_width,
+                  padding=(0, button_height)).pack(pady=padding_between_buttons)
+
+        ttk.Button(self,
                   text="Учебные программы",
                   command=self.open_programs,
                   width=button_width,
