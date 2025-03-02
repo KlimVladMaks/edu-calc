@@ -4,9 +4,8 @@ from tkinter import ttk
 
 class Table:
     """
-    Класс для создания таблицы.
+    Таблица.
     """
-
     def __init__(self, frame, columns):
         self.frame = frame
         self.columns = columns
