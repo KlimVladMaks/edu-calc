@@ -31,12 +31,13 @@ class ProgramsDatabase:
 
     def get_unique_stages_names(self):
         self.load_data()
-        unique_stages_names = set()
+        unique_stages_names = []
         for program in self.data.get('programs', []):
             for stage in program.get("stages", []):
                 stage_name = stage[0]
-                unique_stages_names.add(stage_name)
-        return sorted(list(unique_stages_names))
+                if stage_name not in unique_stages_names:
+                    unique_stages_names.append(stage_name)
+        return unique_stages_names
     
     def get_all_programs_names(self):
         self.load_data()
