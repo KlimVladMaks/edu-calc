@@ -98,3 +98,9 @@ class ProgramsDatabase:
                 break
         self.save_data()
         self.parent_db.groups.update_program(program_name, upd_name)
+    
+    def get_all_names(self):
+        names = []
+        for calendar in self.data.get('programs', []):
+            names.append(calendar["name"])
+        return names
