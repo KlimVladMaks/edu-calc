@@ -2,6 +2,7 @@ import os
 import json
 from database.CalendarsDatabase import CalendarsDatabase
 from database.EduTypesDatabase import EduTypesDatabase
+from database.EduStagesDatabase import EduStagesDatabase
 from database.ProgramsDatabase import ProgramsDatabase
 from database.GroupsDatabase import GroupsDatabase
 
@@ -17,6 +18,7 @@ class Database:
 
         self.calendars = CalendarsDatabase(self)
         self.edu_types = EduTypesDatabase()
+        self.edu_stages = EduStagesDatabase()
         self.programs = ProgramsDatabase(self)
         self.groups = GroupsDatabase()
     
@@ -25,6 +27,7 @@ class Database:
             initial_data = {
                 "calendars": [],
                 "edu_types": [],
+                "edu_stages": [],
                 "programs": [],
                 "groups": []
             }

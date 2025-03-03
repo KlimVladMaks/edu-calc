@@ -42,7 +42,6 @@ class ProgramsFrame(BaseFrame):
     def get_table_columns(self):
         table_columns = [
             ["Название", 150],
-            ["Вид обучения", 100],
             ["Всего дней", 100]
         ]
         unique_stages_names = self.db.programs.get_unique_stages_names()
@@ -60,8 +59,6 @@ class ProgramsFrame(BaseFrame):
         for program_name in programs_names:
             table_row = []
             table_row.append(program_name)
-            edu_type = self.db.programs.get_edu_type(program_name)
-            table_row.append(edu_type)
             total_days = self.db.programs.get_total_days(program_name)
             table_row.append(total_days)
             for stage_name in unique_stages_names:

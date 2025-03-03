@@ -28,8 +28,6 @@ class AddProgramFrame(BaseFrame):
         self.name_entry = ttk.Entry(self.scrollable_frame, width=50)
         self.name_entry.pack(pady=(0, 10))
 
-        self.create_combobox()
-
         self.stages_constructor = StagesConstructor(self.scrollable_frame, self.canvas)
         self.stages_constructor.pack()
 
@@ -49,9 +47,8 @@ class AddProgramFrame(BaseFrame):
     
     def save_program(self):
         program_name = self.name_entry.get()
-        type = self.edu_type_combobox.get()
         stages = self.stages_constructor.get_stages()
-        self.db.programs.add([program_name, type, stages])
+        self.db.programs.add([program_name, stages])
         self.parent_frame.update_table()
         self.go_back()
 
@@ -80,9 +77,3 @@ class AddProgramFrame(BaseFrame):
         self.scrollbar.pack(side="right", fill="y")
 
         self.canvas.bind_all("<MouseWheel>", self.on_mouse_wheel)
-    
-    def create_combobox(self):
-        ttk.Label(self.scrollable_frame, text="Вид обучения:").pack(pady=(10, 0))
-        edu_types = self.db.edu_types.get_all()
-        self.edu_type_combobox = ttk.Combobox(self.scrollable_frame, values=edu_types, width=50, state="readonly")
-        self.edu_type_combobox.pack(pady=(0, 10))

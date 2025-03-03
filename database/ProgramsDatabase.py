@@ -37,7 +37,7 @@ class ProgramsDatabase:
                 stage_name = stage[0]
                 if stage_name not in unique_stages_names:
                     unique_stages_names.append(stage_name)
-        return unique_stages_names
+        return sorted(unique_stages_names)
     
     def get_all_programs_names(self):
         self.load_data()
@@ -60,11 +60,6 @@ class ProgramsDatabase:
             if stage[0] == stage_name:
                 number_of_days += stage[1]
         return number_of_days
-
-    def get_edu_type(self, program_name):
-        self.load_data()
-        program = self.get(program_name)
-        return program["edu_type"]
         
     def delete(self, program_name):
         self.load_data()
@@ -77,14 +72,13 @@ class ProgramsDatabase:
         self.parent_db.groups.delete_by_program(program_name)
 
     def add(self, program_data):
-        name, edu_type, stages = program_data
+        name, stages = program_data
         programs = self.data.get('programs', [])
         for program in programs:
             if program['name'] == name:
                 return False
         new_program = {
             'name': name,
-            'edu_type': edu_type,
             'stages': stages
         }
         programs.append(new_program)

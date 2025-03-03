@@ -25,7 +25,7 @@ class StagesConstructor:
         new_stage = StageInput(self.sc_frame,
                                index, self.move_stage_up,
                                self.move_stage_down,
-                               self.delete_stage, "", -1)
+                               self.delete_stage)
         new_stage.pack()
         self.stages_list.append(new_stage)
 
@@ -51,20 +51,18 @@ class StagesConstructor:
             return
         
         stage = self.stages_list[index]
-        name = str(stage.name_entry.get())
+        name = str(stage.name_combobox.get())
         days = str(stage.days_entry.get())
 
         upper_stage = self.stages_list[index - 1]
-        u_name = str(upper_stage.name_entry.get())
+        u_name = str(upper_stage.name_combobox.get())
         u_days = str(upper_stage.days_entry.get())
 
-        upper_stage.name_entry.delete(0, tk.END)
-        upper_stage.name_entry.insert(0, name)
+        upper_stage.name_combobox.set(name)
         upper_stage.days_entry.delete(0, tk.END)
         upper_stage.days_entry.insert(0, days)
 
-        stage.name_entry.delete(0, tk.END)
-        stage.name_entry.insert(0, u_name)
+        stage.name_combobox.set(u_name)
         stage.days_entry.delete(0, tk.END)
         stage.days_entry.insert(0, u_days)
     
@@ -73,20 +71,18 @@ class StagesConstructor:
             return
 
         stage = self.stages_list[index]
-        name = str(stage.name_entry.get())
+        name = str(stage.name_combobox.get())
         days = str(stage.days_entry.get())
 
         lower_stage = self.stages_list[index + 1]
-        l_name = str(lower_stage.name_entry.get())
+        l_name = str(lower_stage.name_combobox.get())
         l_days = str(lower_stage.days_entry.get())
 
-        lower_stage.name_entry.delete(0, tk.END)
-        lower_stage.name_entry.insert(0, name)
+        lower_stage.name_combobox.set(name)
         lower_stage.days_entry.delete(0, tk.END)
         lower_stage.days_entry.insert(0, days)
 
-        stage.name_entry.delete(0, tk.END)
-        stage.name_entry.insert(0, l_name)
+        stage.name_combobox.set(l_name)
         stage.days_entry.delete(0, tk.END)
         stage.days_entry.insert(0, l_days)
     
@@ -94,7 +90,7 @@ class StagesConstructor:
         stages_data = []
         for stage in self.stages_list:
             stage_data = []
-            stage_data.append(stage.name_entry.get())
+            stage_data.append(stage.name_combobox.get())
             stage_data.append(int(stage.days_entry.get()))
             stages_data.append(stage_data)
         return stages_data
