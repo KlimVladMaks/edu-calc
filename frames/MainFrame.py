@@ -5,6 +5,7 @@ from frames.calendar_frames.CalendarsFrame import CalendarsFrame
 from frames.program_frames.ProgramsFrame import ProgramsFrame
 from frames.group_frames.GroupsFrame import GroupsFrame
 from frames.UploadingFrame import UploadingFrame
+from frames.EduTypesFrame import EduTypesFrame
 
 
 class MainFrame(BaseFrame):
@@ -45,6 +46,7 @@ class MainFrame(BaseFrame):
         
         ttk.Button(self,
                   text="Виды обучения",
+                  command=self.open_edu_types,
                   width=button_width,
                   padding=(0, button_height)).pack(pady=padding_between_buttons)
         
@@ -69,3 +71,7 @@ class MainFrame(BaseFrame):
     def open_uploading(self):
         uploading_frame = UploadingFrame(self.master, self)
         uploading_frame.display_frame()
+    
+    def open_edu_types(self):
+        edu_types_frame = EduTypesFrame(self.master, self)
+        edu_types_frame.display_frame()

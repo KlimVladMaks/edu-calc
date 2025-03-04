@@ -19,7 +19,7 @@ class Table:
 
         self.column_widths = []
         for column in self.columns:
-            self.column_widths.append(columns[1])
+            self.column_widths.append(column[1])
         
         self.table_frame = ttk.Frame(self.frame)
         self.table_frame.pack(fill="both", expand=True)
@@ -34,8 +34,12 @@ class Table:
         self.scroll_x = ttk.Scrollbar(self.table_frame, orient="horizontal", command=self.tree.xview)
         self.tree.configure(xscrollcommand=self.scroll_x.set)
 
-        self.tree.pack(side="top", fill="both", expand=True)
+        self.scroll_y = ttk.Scrollbar(self.table_frame, orient="vertical", command=self.tree.yview)
+        self.tree.configure(yscrollcommand=self.scroll_y.set)
+
         self.scroll_x.pack(side="bottom", fill="x")
+        self.scroll_y.pack(side="right", fill="y")
+        self.tree.pack(side="left", fill="both", expand=True)
 
         self.tree.bind("<Button-1>", self.on_treeview_click)
 
