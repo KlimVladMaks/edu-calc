@@ -5,7 +5,8 @@ class EduTypesDatabase:
     """
     База данных для работы с видами обучения.
     """
-    def __init__(self):
+    def __init__(self, parent_db):
+        self.db = parent_db
         self.filename = 'database.json'
         self.load_data()
     
@@ -21,3 +22,19 @@ class EduTypesDatabase:
         self.load_data()
         edu_types = self.data.get("edu_types", [])
         return edu_types
+
+    def delete(self, edu_type_del):
+        self.load_data()
+        edu_types = self.data.get("edu_types", [])
+        for i in range(len(edu_types)):
+            if edu_types[i] == edu_type_del:
+                edu_types.pop(i)
+                break
+        self.save_data()
+        self.db.groups.delete_by_edu_type(edu_type_del)
+    
+    def add(self, new_edu_type):
+        self.load_data()
+        edu_types = self.data.get("edu_types", [])
+        edu_types.append(new_edu_type)
+        self.save_data()

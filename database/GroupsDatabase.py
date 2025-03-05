@@ -106,3 +106,11 @@ class GroupsDatabase:
                 group["start_date"] = upd_start_date
                 break
         self.save_data()
+    
+    def delete_by_edu_type(self, edu_type):
+        self.load_data()
+        groups = self.data.get("groups", [])
+        for i, group in enumerate(groups):
+            if group["edu_type"] == edu_type:
+                del groups[i]
+        self.save_data()

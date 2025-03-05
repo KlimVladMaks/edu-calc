@@ -5,7 +5,7 @@ from frames.calendar_frames.CalendarsFrame import CalendarsFrame
 from frames.program_frames.ProgramsFrame import ProgramsFrame
 from frames.group_frames.GroupsFrame import GroupsFrame
 from frames.UploadingFrame import UploadingFrame
-from frames.EduTypesFrame import EduTypesFrame
+from frames.edu_frames.EduTypesFrame import EduTypesFrame
 
 
 class MainFrame(BaseFrame):

@@ -17,7 +17,7 @@ class Database:
         self._check_and_create_database_file()
 
         self.calendars = CalendarsDatabase(self)
-        self.edu_types = EduTypesDatabase()
+        self.edu_types = EduTypesDatabase(self)
         self.edu_stages = EduStagesDatabase()
         self.programs = ProgramsDatabase(self)
         self.groups = GroupsDatabase()
