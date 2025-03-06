@@ -114,3 +114,10 @@ class GroupsDatabase:
             if group["edu_type"] == edu_type:
                 del groups[i]
         self.save_data()
+    
+    def update_edu_type(self, old_edu_type, new_edu_type):
+        self.load_data()
+        for group in self.data.get("groups", []):
+            if group["edu_type"] == old_edu_type:
+                group["edu_type"] = new_edu_type
+        self.save_data()

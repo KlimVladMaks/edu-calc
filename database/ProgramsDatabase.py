@@ -104,3 +104,22 @@ class ProgramsDatabase:
         for calendar in self.data.get('programs', []):
             names.append(calendar["name"])
         return names
+
+    def update_edu_stage(self, old_edu_stage, new_edu_stage):
+        self.load_data()
+        for program in self.data.get("programs", []):
+            program_stages = program["stages"]
+            for stage in program_stages:
+                if stage[0] == old_edu_stage:
+                    stage[0] = new_edu_stage
+        self.save_data()
+    
+    def delete_by_edu_stage(self, edu_stage):
+        self.load_data()
+        programs = self.data.get("programs", [])
+        for i, program in enumerate(programs):
+            for stage in program["stages"]:
+                if stage[0] == edu_stage:
+                    del programs[i]
+                    break
+        self.save_data()

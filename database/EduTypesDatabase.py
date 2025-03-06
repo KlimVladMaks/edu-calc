@@ -38,3 +38,13 @@ class EduTypesDatabase:
         edu_types = self.data.get("edu_types", [])
         edu_types.append(new_edu_type)
         self.save_data()
+    
+    def update(self, old_edu_type, new_edu_type):
+        self.load_data()
+        edu_types = self.data.get("edu_types", [])
+        for i in range(len(edu_types)):
+            if edu_types[i] == old_edu_type:
+                edu_types[i] = new_edu_type
+                break
+        self.save_data()
+        self.db.groups.update_edu_type(old_edu_type, new_edu_type)
