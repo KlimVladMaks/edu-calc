@@ -2,6 +2,7 @@ import tkinter as tk
 from frames.main_frame import MainFrame
 
 
+# Запуск приложения
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Образовательный калькулятор")

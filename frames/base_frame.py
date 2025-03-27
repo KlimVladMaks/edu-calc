@@ -17,7 +17,7 @@ class BaseFrame(tk.Frame):
     
     def display_frame(self) -> None:
         """
-        Отображаем фрейм в окне приложения
+        Отображает фрейм в окне приложения
         (при этом все остальные фреймы автоматически скрываются).
         """
         for widget in self.master.winfo_children():

@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from frames.base_frame import BaseFrame
 
 
@@ -18,4 +19,48 @@ class MainFrame(BaseFrame):
         """
         Создаёт фрейм (добавляет и настраивает все необходимые компоненты).
         """
+        button_width = 60
+        button_height = 10
+        padding_between_buttons = 8
+
+        ttk.Button(self,
+                   text="Производственные календари",
+                   width=button_width,
+                   padding=(0, button_height)).pack(pady=padding_between_buttons)
+        
+        ttk.Button(self,
+                   text="Учебные программы",
+                   command=self.open_programs_frame,
+                   width=button_width,
+                   padding=(0, button_height)).pack(pady=padding_between_buttons)
+        
+        ttk.Button(self,
+                   text="Учебные группы",
+                   width=button_width,
+                   padding=(0, button_height)).pack(pady=padding_between_buttons)
+        
+        ttk.Button(self,
+                   text="Этапы обучения",
+                   width=button_width,
+                   padding=(0, button_height)).pack(pady=padding_between_buttons)
+        
+        ttk.Button(self,
+                   text="Виды обучения",
+                   width=button_width,
+                   padding=(0, button_height)).pack(pady=padding_between_buttons)
+        
+        ttk.Button(self,
+                   text="Выгрузить данные",
+                   width=button_width,
+                   padding=(0, button_height)).pack(pady=padding_between_buttons)
+
+    def open_programs_frame(self) -> None:
+        """
+        Открывает фрейм для работы с учебными программами.
+        """
         pass
+
+
+
+
+
