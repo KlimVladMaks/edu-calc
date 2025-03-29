@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from frames.base_frame import BaseFrame
+from frames.calendars_frames.calendars_frame import CalendarsFrame
 
 
 class MainFrame(BaseFrame):
@@ -25,6 +26,7 @@ class MainFrame(BaseFrame):
 
         ttk.Button(self,
                    text="Производственные календари",
+                   command=self.open_calendars_frame,
                    width=button_width,
                    padding=(0, button_height)).pack(pady=padding_between_buttons)
         
@@ -53,6 +55,10 @@ class MainFrame(BaseFrame):
                    text="Выгрузить данные",
                    width=button_width,
                    padding=(0, button_height)).pack(pady=padding_between_buttons)
+
+    def open_calendars_frame(self) -> None:
+        calendars_frame = CalendarsFrame(self.master, self)
+        calendars_frame.display_frame()
 
     def open_programs_frame(self) -> None:
         """

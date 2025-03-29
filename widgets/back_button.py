@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+import typing as tp
 
 
 class BackButton:
@@ -7,7 +8,7 @@ class BackButton:
     Кнопка "Назад". При нажатии возвращает на предыдущий фрейм.
     Имеет абсолютное позиционирование.
     """
-    def __init__(self, master: tk.Tk, command: function):
+    def __init__(self, master: tk.Tk, command: tp.Callable):
         """
         Аргументы:
             master: Окно приложения.

@@ -1,5 +1,6 @@
 import os
 import json
+from database.calendars_database import CalendarsDatabase
 from database.programs_database import ProgramsDatabase
 
 class Database:
@@ -11,6 +12,7 @@ class Database:
         self.file_path = "database.json"
         self.check_and_create_database_file()
 
+        self.calendars = CalendarsDatabase(self)
         self.programs = ProgramsDatabase(self)
     
     def check_and_create_database_file(self) -> None:

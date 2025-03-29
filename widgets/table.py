@@ -8,49 +8,61 @@ class Table:
     """
     Таблица для отображения данных.
     """
-    def __init__(self, frame: BaseFrame, columns: list[list[tp.Union[str, int]]]):
+    def __init__(self, frame: BaseFrame, columns: list[list[tp.Union[str, int]]], height: int):
         """
-        Аргументы:
+        Параметры:
             - frame: Фрейм, на котором должна размещаться таблица.
             - columns: Список с названиями и начальной шириной столбцов таблицы.
             Должен иметь следующий формат: columns = [["Название 1", 150], ["Название 2", 100]].
+            - height: Высота таблицы (число отображаемых строк).
         """
         self.frame = frame
         self.columns = columns
 
-        self.current_sort_column: str
+        self.current_sort_column: tp.Union[str, None] = None
         self.sort_order: bool = True
         
         self.column_names: list[str] = []
         for column in columns:
-            self.columns_name.append(column[0])
+            self.column_names.append(column[0])
         
         self.column_widths: list[int] = []
         for column in columns:
             self.column_widths.append(column[1])
         
         self.table_frame = ttk.Frame(self.frame)
-        self.tree = ttk.Treeview(self.table_frame, columns=self.column_names, show="headings")
-        self.tree.pack()
+
+        self.tree = ttk.Treeview(self.table_frame, columns=self.column_names, height=height, show="headings")
 
         for name in self.column_names:
             self.tree.heading(name, text=name, command=lambda name=name: self.sort_column(name))
         for column in self.columns:
             self.tree.column(column[0], width=column[1], stretch=False)
 
-        self.realize_scrolling()
+        self.scroll_x = ttk.Scrollbar(self.table_frame, orient="horizontal", command=self.tree.xview)
+        self.tree.configure(xscrollcommand=self.scroll_x.set)
 
-    def pack(self) -> None:
+        self.scroll_y = ttk.Scrollbar(self.table_frame, orient="vertical", command=self.tree.yview)
+        self.tree.configure(yscrollcommand=self.scroll_y.set)
+
+        self.scroll_x.pack(side="bottom", fill="x")
+        self.scroll_y.pack(side="right", fill="y")
+        self.tree.pack(side="left")
+
+    def pack(self, pady=0) -> None:
         """
         Располагает (отображает) таблицу на фрейме.
-        """
-        self.table_frame.pack()
 
-    def add_rows(self, rows: list[list]) -> None:
+        Параметры:
+            - pady: Отступы таблицы по оси Y.
+        """
+        self.table_frame.pack(pady=pady)
+
+    def add_rows(self, rows: list[list[str]]) -> None:
         """
         Добавляет в таблицу заданные строки.
 
-        Аргументы:
+        Параметры:
             - rows: Список со значениями строк в формате:
             [[<1-е значение 1-й строки>, <2-е значение 1-й строки>, ...], [<1-е значение 2-й строки>, ...], ...].
         """
@@ -61,27 +73,13 @@ class Table:
         """
         Удаляет все старые строки и заменяет их на новые.
 
-        Аргументы:
+        Параметры:
             - new_rows: Список со значениями новых строк в формате:
             [[<1-е значение 1-й строки>, <2-е значение 1-й строки>, ...], [<1-е значение 2-й строки>, ...], ...].
         """
         for item in self.tree.get_children():
             self.tree.delete(item)
-        self.add_rows(new_rows)
-
-    def realize_scrolling(self) -> None:
-        """
-        Добавить в таблицу функцию вертикальной и горизонтальной прокрутки
-        (чтобы можно было просматривать содержимое таблицы, превосходящее её размеры).
-        """
-        self.scroll_x = ttk.Scrollbar(self.table_frame, orient="horizontal", command=self.tree.xview)
-        self.tree.configure(xscrollcommand=self.scroll_x.set)
-
-        self.scroll_y = ttk.Scrollbar(self.table_frame, orient="vertical", command=self.tree.yview)
-        self.tree.configure(yscrollcommand=self.scroll_y.set)
-
-        self.scroll_x.pack(side="bottom", fill="x")
-        self.scroll_y.pack(side="right", fill="y")
+        self.add_rows(new_rows)  
 
     def sort_column(self, column_name: str) -> None:
         """
@@ -89,7 +87,7 @@ class Table:
         Использует отдельную переменную для хранения порядка сортировки
         (Сначала сортирует по возрастанию, при повторном вызове - по убыванию).
 
-        Аргументы:
+        Параметры:
             column_name: Название столбца, который нужно отсортировать.
         """
         if self.current_sort_column == column_name:
