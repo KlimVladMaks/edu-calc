@@ -31,7 +31,6 @@ class Table:
             self.column_widths.append(column[1])
         
         self.table_frame = ttk.Frame(self.frame)
-
         self.tree = ttk.Treeview(self.table_frame, columns=self.column_names, height=height, show="headings")
 
         for name in self.column_names:
@@ -48,6 +47,11 @@ class Table:
         self.scroll_x.pack(side="bottom", fill="x")
         self.scroll_y.pack(side="right", fill="y")
         self.tree.pack(side="left")
+
+        self.tree.bind("<Button-1>", self.on_table_click)
+
+        self.menu = tk.Menu(self.table_frame, tearoff=0)
+        self.tree.bind("<Button-3>", self.show_menu)
 
     def pack(self, pady=0) -> None:
         """
@@ -144,8 +148,29 @@ class Table:
         """
         self.table_frame.destroy()
 
+    def on_table_click(self, event) -> None:
+        region = self.tree.identify_region(event.x, event.y)
+        if region == "nothing":
+            self.tree.selection_remove(self.tree.selection())
 
+    def show_menu(self, event):
+        row_id = self.tree.identify_row(event.y)
+        if row_id:
+            self.tree.selection_set(row_id)
+            self.menu.post(event.x_root, event.y_root)
 
+    def add_menu_command(self, label, command):
+        self.menu.add_command(label=label, command=command)
 
+    def delete_selected(self):
+        selected_items = self.tree.selection()
+        selected_item = selected_items[0]
+        self.tree.delete(selected_item)
+
+    def get_selected_row(self):
+        selected_items = self.tree.selection()
+        selected_item = selected_items[0]
+        item_data = self.tree.item(selected_item)
+        return item_data["values"]
 
 

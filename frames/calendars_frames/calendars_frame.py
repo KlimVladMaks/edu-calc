@@ -55,6 +55,9 @@ class CalendarsFrame(BaseFrame):
         table_rows = self.get_table_rows()
         self.table.add_rows(table_rows)
         self.table.pack(pady=10)
+
+        self.table.add_menu_command(label="Изменить", command=self.open_edit_calendar_frame)
+        self.table.add_menu_command(label="Удалить", command=self.delete_calendar)
     
     def get_table_rows(self) -> list[list]:
         """
@@ -77,7 +80,10 @@ class CalendarsFrame(BaseFrame):
             table_rows.append(table_row)
         return table_rows
             
+    def open_edit_calendar_frame(self):
+        pass
 
-
-
-
+    def delete_calendar(self):
+        selected_calendar_data = self.table.get_selected_row()
+        self.db.calendars.delete_calendar(str(selected_calendar_data[0]))
+        self.table.delete_selected()

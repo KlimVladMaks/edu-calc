@@ -1,12 +1,11 @@
 from database.base_database import BaseDatabase
-from widgets.calculator import Calculator
 
 
 class CalendarsDatabase(BaseDatabase):
     """
     База данных для работы с данными производственных календарей.
     """
-    def __init__(self, parent_db: 'database.database.Database') -> None:
+    def __init__(self, parent_db) -> None:
         """
         Параметры:
             parent_db: Родительская (общая) база данных.
@@ -31,6 +30,14 @@ class CalendarsDatabase(BaseDatabase):
             if calendar["name"] == calendar_name:
                 return calendar
 
-
+    def delete_calendar(self, calendar_name: str):
+        self.load_data()
+        calendars = self.data.get("calendars", [])
+        for i, calendar in enumerate(calendars):
+            if calendar["name"] == calendar_name:
+                del calendars[i]
+                break
+        self.save_data()
+        self.db.groups.delete_by_calendar(calendar_name)
 
 
