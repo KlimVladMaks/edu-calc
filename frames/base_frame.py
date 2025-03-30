@@ -22,4 +22,4 @@ class BaseFrame(tk.Frame):
         """
         for widget in self.master.winfo_children():
             widget.pack_forget()
-        self.pack()
+        self.pack(fill="both", expand=True)

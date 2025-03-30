@@ -25,6 +25,9 @@ class StagesConstructor:
         self.add_stage_button = ttk.Button(self.frame, text="+ Добавить этап", command=self.add_new_stage)
         self.add_stage_button.pack(pady=(10, 0))
 
+        self.main_frame.update_idletasks()
+        self.main_frame.master.yview_moveto(1)
+
 
 
 
