@@ -8,7 +8,7 @@ class Table:
     """
     Таблица для отображения данных.
     """
-    def __init__(self, frame: BaseFrame, columns: list[list[tp.Union[str, int]]], height: int):
+    def __init__(self, main_frame: BaseFrame, columns: list[list[tp.Union[str, int]]], height: int):
         """
         Параметры:
             - frame: Фрейм, на котором должна размещаться таблица.
@@ -16,7 +16,7 @@ class Table:
             Должен иметь следующий формат: columns = [["Название 1", 150], ["Название 2", 100]].
             - height: Высота таблицы (число отображаемых строк).
         """
-        self.frame = frame
+        self.main_frame = main_frame
         self.columns = columns
 
         self.current_sort_column: tp.Union[str, None] = None
@@ -30,7 +30,7 @@ class Table:
         for column in columns:
             self.column_widths.append(column[1])
         
-        self.table_frame = ttk.Frame(self.frame)
+        self.table_frame = ttk.Frame(self.main_frame)
         self.tree = ttk.Treeview(self.table_frame, columns=self.column_names, height=height, show="headings")
 
         for name in self.column_names:

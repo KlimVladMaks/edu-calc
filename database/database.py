@@ -3,6 +3,7 @@ import json
 from database.calendars_database import CalendarsDatabase
 from database.programs_database import ProgramsDatabase
 from database.groups_database import GroupsDatabase
+from database.stages_database import StagesDatabase
 
 class Database:
     """
@@ -16,6 +17,7 @@ class Database:
         self.calendars = CalendarsDatabase(self)
         self.programs = ProgramsDatabase(self)
         self.groups = GroupsDatabase(self)
+        self.edu_stages = StagesDatabase(self)
     
     def check_and_create_database_file(self) -> None:
         """

@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from frames.base_frame import BaseFrame
+from frames.programs_frames.add_program_frame import AddProgramFrame
 from database.database import Database
 from widgets.back_button import BackButton
 from widgets.table import Table
@@ -29,6 +30,7 @@ class ProgramsFrame(BaseFrame):
         self.back_button.place()
         ttk.Label(self, text="Учебные программы").pack(pady=10)
         self.create_table()
+        ttk.Button(self, text="Добавить учебную программу", command=self.open_add_program_frame).pack(pady=10)
     
     def create_table(self) -> None:
         """
@@ -86,7 +88,9 @@ class ProgramsFrame(BaseFrame):
         self.db.programs.delete_program(selected_program_data[0])
         self.table.delete_selected()
 
-
+    def open_add_program_frame(self):
+        add_program_frame = AddProgramFrame(self.master, self)
+        add_program_frame.display_frame()
 
 
 
