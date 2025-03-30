@@ -2,9 +2,10 @@ import tkinter as tk
 from tkinter import ttk
 from frames.base_frame import BaseFrame
 from frames.calendars_frames.calendars_frame import CalendarsFrame
+from frames.programs_frames.programs_frame import ProgramsFrame
 
 
-class MainFrame(BaseFrame):
+class MainMenuFrame(BaseFrame):
     """
     Фрейм с главным меню приложения.
     """
@@ -60,11 +61,9 @@ class MainFrame(BaseFrame):
         calendars_frame = CalendarsFrame(self.master, self)
         calendars_frame.display_frame()
 
-    def open_programs_frame(self) -> None:
-        """
-        Открывает фрейм для работы с учебными программами.
-        """
-        pass
+    def open_programs_frame(self):
+        programs_frame = ProgramsFrame(self.master, self)
+        programs_frame.display_frame()
 
 
 

@@ -15,7 +15,14 @@ class GroupsDatabase(BaseDatabase):
             if group["calendar"] == calendar_name:
                 del groups[i]
         self.save_data()
-
+    
+    def delete_by_program(self, program_name):
+        self.load_data()
+        groups = self.data.get("groups", [])
+        for i, group in enumerate(groups):
+            if group["program"] == program_name:
+                del groups[i]
+        self.save_data()
 
 
 
