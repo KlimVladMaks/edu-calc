@@ -39,15 +39,18 @@ class AddProgramFrame(BaseFrame):
         self.name_entry = ttk.Entry(self.scrollable_frame, width=50)
         self.name_entry.pack(pady=(0, 10))
 
-        self.stages_constructor = StagesConstructor(self.scrollable_frame)
+        self.stages_constructor = StagesConstructor(self.scrollable_frame, self.on_mouse_wheel)
         self.stages_constructor.pack(pady=10)
 
         self.canvas.bind_all("<MouseWheel>", self.on_mouse_wheel)
+
+        ttk.Button(self.scrollable_frame, text="Сохранить учебную программу").pack(pady=10)
     
     def on_mouse_wheel(self, event):
         start, end = self.scrollbar.get()
         if (start > 0.0) or (end < 1.0):
             self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+        return "break"
 
     def go_back(self):
         self.back_button.destroy()
