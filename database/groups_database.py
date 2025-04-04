@@ -37,7 +37,14 @@ class GroupsDatabase(BaseDatabase):
             if group["name"] == group_name:
                 return group
 
-
+    def delete_group(self, group_name):
+        self.load_data()
+        groups = self.data.get("groups", [])
+        for i, group in enumerate(groups):
+            if group["name"] == group_name:
+                del groups[i]
+                break
+        self.save_data()
 
 
 

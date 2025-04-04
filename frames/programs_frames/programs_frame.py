@@ -87,7 +87,7 @@ class ProgramsFrame(BaseFrame):
 
     def delete_program(self):
         selected_program_data = self.table.get_selected_row()
-        self.db.programs.delete_program(selected_program_data[0])
+        self.db.programs.delete_program(str(selected_program_data[0]))
         self.table.delete_selected()
 
     def open_add_program_frame(self):

@@ -77,7 +77,9 @@ class GroupsFrame(BaseFrame):
         pass
 
     def delete_group(self):
-        pass
+        selected_group_data = self.table.get_selected_row()
+        self.db.groups.delete_group(str(selected_group_data[0]))
+        self.table.delete_selected()
 
     def open_calendar_app(self):
         pass
