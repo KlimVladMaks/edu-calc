@@ -53,4 +53,21 @@ class GroupsDatabase(BaseDatabase):
                 group["program"] = new_program_name
         self.save_data()
 
+    def add_new_group(self, new_group_data):
+        self.load_data()
+        name, calendar, program, edu_type, start_date = new_group_data
+        new_group = {
+            "name": name,
+            "calendar": calendar,
+            "program": program,
+            "edu_type": edu_type,
+            "start_date": start_date
+        }
+        groups = self.data.get("groups", [])
+        groups.append(new_group)
+        self.save_data()
+
+
+
+
 

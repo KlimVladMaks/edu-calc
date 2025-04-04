@@ -1,5 +1,6 @@
 from tkinter import ttk
 from frames.base_frame import BaseFrame
+from frames.groups_frames.add_group_frame import AddGroupFrame
 from database.database import Database
 from widgets.back_button import BackButton
 from widgets.table import Table
@@ -21,6 +22,7 @@ class GroupsFrame(BaseFrame):
         self.back_button.place()
         ttk.Label(self, text="Учебные группы").pack(pady=10)
         self.create_table()
+        ttk.Button(self, text="Добавить учебную группу", command=self.open_add_group_frame).pack(pady=10)
     
     def go_back(self):
         self.back_button.destroy()
@@ -84,9 +86,13 @@ class GroupsFrame(BaseFrame):
     def open_calendar_app(self):
         pass
 
+    def update_table(self):
+        new_table_rows = self.get_table_rows()
+        self.table.update_rows(new_table_rows)
 
-
-
+    def open_add_group_frame(self):
+        add_group_frame = AddGroupFrame(self.master, self)
+        add_group_frame.display_frame()
 
 
 

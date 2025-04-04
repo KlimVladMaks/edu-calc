@@ -4,6 +4,7 @@ from database.calendars_database import CalendarsDatabase
 from database.programs_database import ProgramsDatabase
 from database.groups_database import GroupsDatabase
 from database.stages_database import StagesDatabase
+from database.edu_types_database import EduTypesDatabase
 
 class Database:
     """
@@ -18,6 +19,7 @@ class Database:
         self.programs = ProgramsDatabase(self)
         self.groups = GroupsDatabase(self)
         self.edu_stages = StagesDatabase(self)
+        self.edu_types = EduTypesDatabase(self)
     
     def check_and_create_database_file(self) -> None:
         """
