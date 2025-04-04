@@ -74,6 +74,22 @@ class ProgramsDatabase(BaseDatabase):
                 total_days = sum(stage[1] for stage in program["stages"])
                 return total_days
 
+    def get_program_stages_list(self, program_name):
+        self.load_data()
+        for program in self.data.get("programs", []):
+            if program["name"] == program_name:
+                return program["stages"]
+
+    def update_program(self, old_program_name, new_program_data):
+        self.load_data()
+        new_name, new_stages = new_program_data
+        for program in self.data.get("programs", []):
+            if program["name"] == old_program_name:
+                program["name"] = new_name
+                program["stages"] = new_stages
+                break
+        self.save_data()
+        self.db.groups.update_program(old_program_name, new_name)
 
 
 

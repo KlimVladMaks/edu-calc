@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from frames.base_frame import BaseFrame
 from frames.programs_frames.add_program_frame import AddProgramFrame
+from frames.programs_frames.edit_program_frame import EditProgramFrame
 from database.database import Database
 from widgets.back_button import BackButton
 from widgets.table import Table
@@ -83,7 +84,10 @@ class ProgramsFrame(BaseFrame):
         return table_rows
 
     def open_edit_program_frame(self):
-        pass
+        selected_program_data = self.table.get_selected_row()
+        old_program_name = str(selected_program_data[0])
+        edit_program_frame = EditProgramFrame(self.master, self, old_program_name)
+        edit_program_frame.display_frame()
 
     def delete_program(self):
         selected_program_data = self.table.get_selected_row()

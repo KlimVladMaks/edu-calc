@@ -46,6 +46,11 @@ class GroupsDatabase(BaseDatabase):
                 break
         self.save_data()
 
-
+    def update_program(self, old_program_name, new_program_name):
+        self.load_data()
+        for group in self.data.get("groups", []):
+            if group["program"] == old_program_name:
+                group["program"] = new_program_name
+        self.save_data()
 
 

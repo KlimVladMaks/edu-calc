@@ -1,18 +1,23 @@
 import tkinter as tk
 from tkinter import ttk
+from database.database import Database
 from widgets.stages_constructor.stage_input import StageInput
 
 
 class StagesConstructor:
     
-    def __init__(self, main_frame, scroll_func):
+    def __init__(self, main_frame, scroll_func, init_program_name=None):
         self.main_frame = main_frame
         self.scroll_func = scroll_func
         self.frame = ttk.Frame(main_frame)
+        self.db = Database()
         self.stages_list: list[StageInput] = []
         self.add_stage_button = ttk.Button()
-        self.add_new_stage()
-    
+        if init_program_name is None:
+            self.add_new_stage()
+        else:
+            self.set_init_values(init_program_name)
+
     def pack(self, pady):
         self.frame.pack(pady=pady)
     
@@ -73,6 +78,13 @@ class StagesConstructor:
             stage_data = [stage.stage_combobox.get(), int(stage.days_entry.get())]
             stages_data.append(stage_data)
         return stages_data
+
+    def set_init_values(self, init_program_name):
+        stages_data = self.db.programs.get_program_stages_list(init_program_name)
+        for stage_data in stages_data:
+            self.add_new_stage()
+            self.stages_list[-1].stage_combobox.set(stage_data[0])
+            self.stages_list[-1].days_entry.insert(0, str(stage_data[1]))
 
 
 
