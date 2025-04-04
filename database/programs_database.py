@@ -57,6 +57,7 @@ class ProgramsDatabase(BaseDatabase):
         self.db.groups.delete_by_program(program_name)
 
     def add_new_program(self, new_program_data):
+        self.load_data()
         name, stages = new_program_data
         new_program_json = {
             "name": name,
@@ -66,7 +67,12 @@ class ProgramsDatabase(BaseDatabase):
         programs_data.append(new_program_json)
         self.save_data()
 
-
+    def get_total_days(self, program_name):
+        self.load_data()
+        for program in self.data.get("programs", []):
+            if program["name"] == program_name:
+                total_days = sum(stage[1] for stage in program["stages"])
+                return total_days
 
 
 

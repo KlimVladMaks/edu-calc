@@ -40,4 +40,10 @@ class CalendarsDatabase(BaseDatabase):
         self.save_data()
         self.db.groups.delete_by_calendar(calendar_name)
 
+    def get_days_off_list(self, calendar_name):
+        self.load_data()
+        for calendar in self.data.get("calendars", []):
+            if calendar["name"] == calendar_name:
+                return calendar["days_off_list"]
+
 

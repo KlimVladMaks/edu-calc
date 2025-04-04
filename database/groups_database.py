@@ -24,6 +24,20 @@ class GroupsDatabase(BaseDatabase):
                 del groups[i]
         self.save_data()
 
+    def get_all_programs_names(self):
+        self.load_data()
+        groups_names = []
+        for group in self.data.get("groups", []):
+            groups_names.append(group["name"])
+        return groups_names
+
+    def get_group_data_dict(self, group_name):
+        self.load_data()
+        for group in self.data.get("groups", []):
+            if group["name"] == group_name:
+                return group
+
+
 
 
 
