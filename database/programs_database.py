@@ -56,6 +56,18 @@ class ProgramsDatabase(BaseDatabase):
         self.save_data()
         self.db.groups.delete_by_program(program_name)
 
+    def add_new_program(self, new_program_data):
+        name, stages = new_program_data
+        new_program_json = {
+            "name": name,
+            "stages": stages
+        }
+        programs_data = self.data.get("programs", [])
+        programs_data.append(new_program_json)
+        self.save_data()
+
+
+
 
 
 

@@ -44,7 +44,11 @@ class AddProgramFrame(BaseFrame):
 
         self.canvas.bind_all("<MouseWheel>", self.on_mouse_wheel)
 
-        ttk.Button(self.scrollable_frame, text="Сохранить учебную программу").pack(pady=10)
+        self.study_days_label = ttk.Label(self.scrollable_frame, text="Всего учебных дней: -")
+        self.study_days_label.pack(pady=10)
+
+        ttk.Button(self.scrollable_frame, text="Сохранить учебную программу",
+                   command=self.save_program).pack(pady=10)
     
     def on_mouse_wheel(self, event):
         start, end = self.scrollbar.get()
@@ -58,9 +62,13 @@ class AddProgramFrame(BaseFrame):
         self.destroy()
         self.parent_frame.display_frame()
     
-
-
-
+    def save_program(self):
+        program_name = self.name_entry.get()
+        stages = self.stages_constructor.get_stages()
+        self.db.programs.add_new_program([program_name, stages])
+        self.parent_frame.update_table()
+        self.go_back()
+    
 
 
 

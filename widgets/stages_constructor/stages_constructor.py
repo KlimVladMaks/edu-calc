@@ -67,7 +67,12 @@ class StagesConstructor:
         stage_2.days_entry.delete(0, tk.END)
         stage_2.days_entry.insert(0, data_1[1])
         
-
+    def get_stages(self):
+        stages_data = []
+        for stage in self.stages_list:
+            stage_data = [stage.stage_combobox.get(), int(stage.days_entry.get())]
+            stages_data.append(stage_data)
+        return stages_data
 
 
 

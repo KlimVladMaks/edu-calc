@@ -30,7 +30,9 @@ class ProgramsFrame(BaseFrame):
         self.back_button.place()
         ttk.Label(self, text="Учебные программы").pack(pady=10)
         self.create_table()
-        ttk.Button(self, text="Добавить учебную программу", command=self.open_add_program_frame).pack(pady=10)
+        self.add_program_button = ttk.Button(self, text="Добавить учебную программу",
+                                             command=self.open_add_program_frame)
+        self.add_program_button.pack(pady=10)
     
     def create_table(self) -> None:
         """
@@ -91,6 +93,15 @@ class ProgramsFrame(BaseFrame):
     def open_add_program_frame(self):
         add_program_frame = AddProgramFrame(self.master, self)
         add_program_frame.display_frame()
+
+    def update_table(self):
+        self.table.destroy()
+        self.add_program_button.destroy()
+        self.create_table()
+        self.add_program_button = ttk.Button(self, text="Добавить учебную программу",
+                                             command=self.open_add_program_frame)
+        self.add_program_button.pack(pady=10)
+
 
 
 
