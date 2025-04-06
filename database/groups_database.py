@@ -67,6 +67,22 @@ class GroupsDatabase(BaseDatabase):
         groups.append(new_group)
         self.save_data()
 
+    def update_group(self, old_group_name, new_group_data):
+        self.load_data()
+        new_name, new_calendar, new_program, new_edu_type, new_start_date = new_group_data
+        for group in self.data.get("groups", []):
+            if group["name"] == old_group_name:
+                group["name"] = new_name
+                group["calendar"] = new_calendar
+                group["program"] = new_program
+                group["edu_type"] = new_edu_type
+                group["start_date"] = new_start_date
+                break
+        self.save_data()
+
+
+
+
 
 
 

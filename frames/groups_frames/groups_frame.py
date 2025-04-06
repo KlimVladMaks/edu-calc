@@ -1,6 +1,7 @@
 from tkinter import ttk
 from frames.base_frame import BaseFrame
 from frames.groups_frames.add_group_frame import AddGroupFrame
+from frames.groups_frames.edit_group_frame import EditGroupFrame
 from database.database import Database
 from widgets.back_button import BackButton
 from widgets.table import Table
@@ -76,7 +77,10 @@ class GroupsFrame(BaseFrame):
         return table_rows
 
     def open_edit_group_frame(self):
-        pass
+        selected_group_data = self.table.get_selected_row()
+        old_group_name = str(selected_group_data[0])
+        self.edit_group_frame = EditGroupFrame(self.master, self, old_group_name)
+        self.edit_group_frame.display_frame()
 
     def delete_group(self):
         selected_group_data = self.table.get_selected_row()
