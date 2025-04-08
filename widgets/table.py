@@ -173,4 +173,21 @@ class Table:
         item_data = self.tree.item(selected_item)
         return item_data["values"]
 
+    def bind(self, sequence, func):
+        self.tree.bind(sequence, func)
+
+    def lock(self):
+        self.tree.bind("<Button-1>", lambda e: "break")
+        self.tree.bind("<Button-3>", lambda e: "break")
+
+    def unlock(self):
+        self.tree.unbind("<Button-1>")
+        self.tree.bind("<Button-3>", self.show_menu)
+
+    def remove_selections(self):
+        selected_items = self.tree.selection()
+        for item in selected_items:
+            self.tree.selection_remove(item)
+
+
 

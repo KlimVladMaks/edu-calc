@@ -3,6 +3,7 @@ from frames.base_frame import BaseFrame
 from database.database import Database
 from widgets.back_button import BackButton
 from widgets.table import Table
+from widgets.input_widget import InputWidget
 
 
 class StagesFrame(BaseFrame):
@@ -17,11 +18,11 @@ class StagesFrame(BaseFrame):
         self.back_button = BackButton(self.master, command=self.go_back)
         self.back_button.place()
 
-        ttk.Label(self, text="Этапы обучения").pack(pady=10)
+        ttk.Label(self, text="Этапы обучения").pack(pady=5)
         self.create_table()
 
         self.add_button = ttk.Button(self, text="Добавить этап обучения", command=self.open_add_widget)
-        self.add_button.pack(pady=10)
+        self.add_button.pack(pady=5)
     
     def go_back(self):
         self.back_button.destroy()
@@ -37,7 +38,11 @@ class StagesFrame(BaseFrame):
         self.table.add_rows(table_rows)
         self.table.add_menu_command(label="Изменить", command=self.open_edit_widget)
         self.table.add_menu_command(label="Удалить", command=self.delete_stage)
-        self.table.pack(pady=10)
+        self.table.pack(pady=5)
+    
+    def update_table(self):
+        new_table_rows = self.get_table_rows()
+        self.table.update_rows(new_table_rows)
     
     def get_table_rows(self):
         table_rows = []
@@ -46,7 +51,13 @@ class StagesFrame(BaseFrame):
         return table_rows
     
     def open_add_widget(self):
-        pass
+        self.add_button.pack_forget()
+        self.add_widget = InputWidget(self, label="Добавить этап обучения", do_button_name="Добавить", 
+                                      do_func=self.add_stage, cancel_button_name="Отменить",
+                                      cancel_func=self.cancel_add)
+        self.add_widget.pack(pady=5)
+        self.table.lock()
+        self.table.remove_selections()
     
     def open_edit_widget(self):
         pass
@@ -54,6 +65,18 @@ class StagesFrame(BaseFrame):
     def delete_stage(self):
         pass
 
-
+    def add_stage(self):
+        new_stage = self.add_widget.entry.get()
+        self.db.edu_stages.add_new_stage(new_stage)
+        self.update_table()
+        self.table.unlock()
+        self.add_widget.destroy()
+        self.add_button.pack(pady=5)
+    
+    def cancel_add(self):
+        self.add_widget.destroy()
+        self.add_button.pack(pady=5)
+        self.table.unlock()
+    
 
 
