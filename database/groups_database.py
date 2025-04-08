@@ -10,19 +10,15 @@ class GroupsDatabase(BaseDatabase):
     
     def delete_by_calendar(self, calendar_name: str) -> None:
         self.load_data()
-        groups = self.data.get("groups", [])
-        for i, group in enumerate(groups):
+        for group in self.data.get("groups", []):
             if group["calendar"] == calendar_name:
-                del groups[i]
-        self.save_data()
+                self.delete_group(group["name"])
     
     def delete_by_program(self, program_name):
         self.load_data()
-        groups = self.data.get("groups", [])
-        for i, group in enumerate(groups):
+        for group in self.data.get("groups", []):
             if group["program"] == program_name:
-                del groups[i]
-        self.save_data()
+                self.delete_group(group["name"])
 
     def get_all_programs_names(self):
         self.load_data()

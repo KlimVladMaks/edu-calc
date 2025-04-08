@@ -17,5 +17,13 @@ class StagesDatabase(BaseDatabase):
         stages_list.append(new_stage)
         self.save_data()
 
-
+    def delete_stage(self, stage_name):
+        self.load_data()
+        stages = self.data.get("edu_stages", [])
+        for i, stage in enumerate(stages):
+            if stage == stage_name:
+                del stages[i]
+                break
+        self.save_data()
+        self.db.programs.delete_by_stage(stage_name)
 

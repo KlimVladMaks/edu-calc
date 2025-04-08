@@ -63,7 +63,9 @@ class StagesFrame(BaseFrame):
         pass
 
     def delete_stage(self):
-        pass
+        selected_stage_data = self.table.get_selected_row()
+        self.db.edu_stages.delete_stage(selected_stage_data[0])
+        self.table.delete_selected()
 
     def add_stage(self):
         new_stage = self.add_widget.entry.get()
