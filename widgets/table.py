@@ -181,7 +181,7 @@ class Table:
         self.tree.bind("<Button-3>", lambda e: "break")
 
     def unlock(self):
-        self.tree.unbind("<Button-1>")
+        self.tree.bind("<Button-1>", self.on_table_click)
         self.tree.bind("<Button-3>", self.show_menu)
 
     def remove_selections(self):

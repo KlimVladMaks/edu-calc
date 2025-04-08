@@ -19,6 +19,12 @@ class GroupsDatabase(BaseDatabase):
         for group in self.data.get("groups", []):
             if group["program"] == program_name:
                 self.delete_group(group["name"])
+    
+    def delete_by_edu_type(self, edu_type_name):
+        self.load_data()
+        for group in self.data.get("groups", []):
+            if group["edu_type"] == edu_type_name:
+                self.delete_group(group["name"])
 
     def get_all_programs_names(self):
         self.load_data()
@@ -49,6 +55,13 @@ class GroupsDatabase(BaseDatabase):
                 group["program"] = new_program_name
         self.save_data()
 
+    def update_edu_type(self, old_edu_type, new_edu_type):
+        self.load_data()
+        for group in self.data.get("groups", []):
+            if group["edu_type"] == old_edu_type:
+                group["edu_type"] = new_edu_type
+        self.save_data()
+
     def add_new_group(self, new_group_data):
         self.load_data()
         name, calendar, program, edu_type, start_date = new_group_data
@@ -75,6 +88,7 @@ class GroupsDatabase(BaseDatabase):
                 group["start_date"] = new_start_date
                 break
         self.save_data()
+    
 
 
 
