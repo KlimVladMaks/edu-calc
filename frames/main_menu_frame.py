@@ -4,6 +4,7 @@ from frames.base_frame import BaseFrame
 from frames.calendars_frames.calendars_frame import CalendarsFrame
 from frames.programs_frames.programs_frame import ProgramsFrame
 from frames.groups_frames.groups_frame import GroupsFrame
+from frames.stages_frame import StagesFrame
 
 
 class MainMenuFrame(BaseFrame):
@@ -46,6 +47,7 @@ class MainMenuFrame(BaseFrame):
         
         ttk.Button(self,
                    text="Этапы обучения",
+                   command=self.open_stages_frame,
                    width=button_width,
                    padding=(0, button_height)).pack(pady=padding_between_buttons)
         
@@ -70,6 +72,10 @@ class MainMenuFrame(BaseFrame):
     def open_groups_frame(self):
         groups_frame = GroupsFrame(self.master, self)
         groups_frame.display_frame()
+    
+    def open_stages_frame(self):
+        stages_frame = StagesFrame(self.master, self)
+        stages_frame.display_frame()
 
 
 
