@@ -27,3 +27,18 @@ class StagesDatabase(BaseDatabase):
         self.save_data()
         self.db.programs.delete_by_stage(stage_name)
 
+    def update_stage(self, old_stage, new_stage):
+        self.load_data()
+        stages_list = self.data.get("edu_stages", [])
+        for i, stage in enumerate(stages_list):
+            if stage == old_stage:
+                stages_list[i] = new_stage
+                break
+        self.save_data()
+        self.db.programs.update_stage(old_stage, new_stage)
+
+
+
+
+
+

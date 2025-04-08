@@ -98,4 +98,14 @@ class ProgramsDatabase(BaseDatabase):
                 if stage[0] == stage_name:
                     self.delete_program(program["name"])
                     
+    def update_stage(self, old_stage, new_stage):
+        self.load_data()
+        for program in self.data.get("programs", []):
+            for stage in program["stages"]:
+                if stage[0] == old_stage:
+                    stage[0] = new_stage
+        self.save_data()
+
+
+
 

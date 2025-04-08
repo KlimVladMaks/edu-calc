@@ -60,7 +60,14 @@ class StagesFrame(BaseFrame):
         self.table.remove_selections()
     
     def open_edit_widget(self):
-        pass
+        self.add_button.pack_forget()
+        selected_stage_data = self.table.get_selected_row()
+        self.editable_stage = selected_stage_data[0]
+        self.edit_widget = InputWidget(self, label="Изменить этап обучения", do_button_name="Сохранить", 
+                                      do_func=self.edit_stage, cancel_button_name="Отменить",
+                                      cancel_func=self.cancel_edit, init_entry_value=self.editable_stage)
+        self.edit_widget.pack(pady=5)
+        self.table.lock()
 
     def delete_stage(self):
         selected_stage_data = self.table.get_selected_row()
@@ -75,10 +82,26 @@ class StagesFrame(BaseFrame):
         self.add_widget.destroy()
         self.add_button.pack(pady=5)
     
+    def edit_stage(self):
+        updated_stage = self.edit_widget.entry.get()
+        if updated_stage != self.editable_stage:
+            self.db.edu_stages.update_stage(self.editable_stage, updated_stage)
+            self.update_table()
+        self.table.unlock()
+        self.edit_widget.destroy()
+        self.add_button.pack(pady=5)
+    
     def cancel_add(self):
         self.add_widget.destroy()
         self.add_button.pack(pady=5)
         self.table.unlock()
     
+    def cancel_edit(self):
+        self.edit_widget.destroy()
+        self.add_button.pack(pady=5)
+        self.table.unlock()
+
+
+
 
 
