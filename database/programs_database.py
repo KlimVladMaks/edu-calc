@@ -93,13 +93,9 @@ class ProgramsDatabase(BaseDatabase):
 
     def delete_by_stage(self, stage_name):
         self.load_data()
-        deleted_programs_names = []
         for program in self.data.get("programs", []):
             for stage in program["stages"]:
                 if stage[0] == stage_name:
-                    deleted_programs_names.append(program["name"])
                     self.delete_program(program["name"])
-        for program_name in deleted_programs_names:
-            self.db.groups.delete_by_program(program_name)
                     
 
