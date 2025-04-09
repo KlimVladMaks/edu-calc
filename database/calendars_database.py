@@ -59,6 +59,21 @@ class CalendarsDatabase(BaseDatabase):
         calendars_data.append(new_calendar_json)
         self.save_data()
 
+    def update_calendar(self, old_calendar_name, new_calendar_data):
+        self.load_data()
+        new_name, new_start_date, new_end_date, new_days_off_list = new_calendar_data
+        for calendar in self.data.get("calendars", []):
+            if calendar["name"] == old_calendar_name:
+                calendar["name"] = new_name
+                calendar["start_date"] = new_start_date
+                calendar["end_date"] = new_end_date
+                calendar["days_off_list"] = new_days_off_list
+                break
+        self.save_data()
+        if new_name != old_calendar_name:
+            self.db.groups.update_calendar(old_calendar_name, new_name)
+
+
 
 
 

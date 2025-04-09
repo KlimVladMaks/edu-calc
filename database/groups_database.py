@@ -55,6 +55,13 @@ class GroupsDatabase(BaseDatabase):
                 group["program"] = new_program_name
         self.save_data()
 
+    def update_calendar(self, old_calendar_name, new_calendar_name):
+        self.load_data()
+        for group in self.data.get("groups", []):
+            if group["calendar"] == old_calendar_name:
+                group["calendar"] = new_calendar_name
+        self.save_data()
+
     def update_edu_type(self, old_edu_type, new_edu_type):
         self.load_data()
         for group in self.data.get("groups", []):

@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from frames.base_frame import BaseFrame
 from frames.calendars_frames.add_calendar_frame import AddCalendarFrame
+from frames.calendars_frames.edit_calendar_frame import EditCalendarFrame
 from database.database import Database
 from widgets.back_button import BackButton
 from widgets.table import Table
@@ -84,7 +85,10 @@ class CalendarsFrame(BaseFrame):
         return table_rows
             
     def open_edit_calendar_frame(self):
-        pass
+        selected_calendar_data = self.table.get_selected_row()
+        calendar_name = str(selected_calendar_data[0])
+        edit_calendar_frame = EditCalendarFrame(self.master, self, calendar_name)
+        edit_calendar_frame.display_frame()
 
     def delete_calendar(self):
         selected_calendar_data = self.table.get_selected_row()
