@@ -46,4 +46,19 @@ class CalendarsDatabase(BaseDatabase):
             if calendar["name"] == calendar_name:
                 return calendar["days_off_list"]
 
+    def add_new_calendar(self, new_calendar_data):
+        self.load_data()
+        name, start_date, end_date, days_off_list = new_calendar_data
+        new_calendar_json = {
+            "name": name,
+            "start_date": start_date,
+            "end_date": end_date,
+            "days_off_list": days_off_list
+        }
+        calendars_data = self.data.get("calendars", [])
+        calendars_data.append(new_calendar_json)
+        self.save_data()
+
+
+
 

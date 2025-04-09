@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from frames.base_frame import BaseFrame
+from frames.calendars_frames.add_calendar_frame import AddCalendarFrame
 from database.database import Database
 from widgets.back_button import BackButton
 from widgets.table import Table
@@ -30,6 +31,8 @@ class CalendarsFrame(BaseFrame):
         self.back_button.place()
         ttk.Label(self, text="Учебные программы").pack(pady=10)
         self.create_table()
+        ttk.Button(self, text="Добавить производственный календарь", 
+                   command=self.open_add_calendar_frame).pack(pady=5)
     
     def go_back(self) -> None:
         """
@@ -87,3 +90,15 @@ class CalendarsFrame(BaseFrame):
         selected_calendar_data = self.table.get_selected_row()
         self.db.calendars.delete_calendar(str(selected_calendar_data[0]))
         self.table.delete_selected()
+
+    def open_add_calendar_frame(self):
+        add_calendar_frame = AddCalendarFrame(self.master, self)
+        add_calendar_frame.display_frame()
+
+    def update_table(self):
+        new_table_rows = self.get_table_rows()
+        self.table.update_rows(new_table_rows)
+
+
+
+
