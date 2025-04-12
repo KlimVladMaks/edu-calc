@@ -28,5 +28,42 @@ class Calculator:
         current_date -= timedelta(days=1)
         return current_date.strftime("%Y-%m-%d")
 
+    def calculate_stages_intervals(calendar_name, program_name, start_date):
+        db = Database()
+        stages = db.programs.get_program_stages_list(program_name)
+        days_off_list = db.calendars.get_days_off_list(calendar_name)
+
+        current_date = datetime.strptime(start_date, "%Y-%m-%d")
+
+        result = []
+
+        for stage in stages:
+            stage_name, duration = stage
+            stage_start_date = current_date
+
+            working_days_count = 0
+            while working_days_count < duration:
+                if current_date.strftime("%Y-%m-%d") not in days_off_list:
+                    working_days_count += 1
+                current_date += timedelta(days=1)
+            
+            stage_end_date = current_date - timedelta(days=1)
+
+            result.append([
+                stage_name,
+                stage_start_date.strftime("%Y-%m-%d"),
+                stage_end_date.strftime("%Y-%m-%d")
+            ])
+
+            while current_date.strftime("%Y-%m-%d") in days_off_list:
+                current_date += timedelta(days=1)
+        
+        return result
+
+
+
+
+
+
 
 

@@ -1,3 +1,6 @@
+import os
+import json
+import tkinter as tk
 from tkinter import ttk
 from frames.base_frame import BaseFrame
 from frames.groups_frames.add_group_frame import AddGroupFrame
@@ -6,6 +9,7 @@ from database.database import Database
 from widgets.back_button import BackButton
 from widgets.table import Table
 from widgets.calculator import Calculator
+from calendar_app.CalendarApp import CalendarApp
 
 
 class GroupsFrame(BaseFrame):
@@ -88,7 +92,58 @@ class GroupsFrame(BaseFrame):
         self.table.delete_selected()
 
     def open_calendar_app(self):
-        pass
+        selected_group_data = self.table.get_selected_row()
+        group_name = str(selected_group_data[0])
+        self.prepare_files_for_calendar_app(group_name)
+        new_window = tk.Toplevel(self.master)
+        new_window.grab_set()
+        CalendarApp(new_window)
+
+    def prepare_files_for_calendar_app(self, group_name):
+        directory = "./calendar_app"
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        
+        group_data_dict = self.db.groups.get_group_data_dict(group_name)
+        group_days_off_list = self.db.calendars.get_days_off_list(group_data_dict["calendar"])
+
+        filename = ".\calendar_app\days_off.json"
+        with open(filename, 'w+', encoding='utf-8') as file:
+            data = {
+                "Праздник": [],
+                "Выходной": group_days_off_list
+            }
+            json.dump(data, file, ensure_ascii=False, indent=4)
+        
+        stages_intervals = Calculator.calculate_stages_intervals(group_data_dict["calendar"],
+                                                                 group_data_dict["program"],
+                                                                 group_data_dict["start_date"])
+        study_periods = []
+        stage_type = ""
+        for stage_interval in stages_intervals:
+            match stage_interval[0]:
+                case "Теория":
+                    stage_type = "theory"
+                case "Практика":
+                    stage_type = "practice"
+                case "Консультация":
+                    stage_type = "consultation"
+                case "Экзамен":
+                    stage_type = "exam"
+                case "Пробная поездка":
+                    stage_type = "trial_ride"
+                case _:
+                    stage_type = stage_interval[0]
+            study_period = {
+                "start_date": stage_interval[1],
+                "end_date": stage_interval[2],
+                "type": stage_type
+            }
+            study_periods.append(study_period)
+        
+        filename = ".\calendar_app\study_periods.json"
+        with open(filename, 'w+', encoding='utf-8') as file:
+            json.dump(study_periods, file, ensure_ascii=False, indent=4)
 
     def update_table(self):
         new_table_rows = self.get_table_rows()

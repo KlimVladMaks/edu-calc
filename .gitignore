@@ -1,3 +1,5 @@
 __pycache__/
 .vscode
 database.json
+calendar_app/days_off.json
+calendar_app/study_periods.json
