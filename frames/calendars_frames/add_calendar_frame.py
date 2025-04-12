@@ -3,6 +3,7 @@ from tkinter import ttk
 from frames.base_frame import BaseFrame
 from database.database import Database
 from widgets.back_button import BackButton
+from widgets.date_entry import DateEntry
 
 
 class AddCalendarFrame(BaseFrame):
@@ -31,9 +32,9 @@ class AddCalendarFrame(BaseFrame):
         self.end_date_label = ttk.Label(self.input_duration_frame, text="Дата окончания:")
         self.end_date_label.grid(row=0, column=1, padx=10)
 
-        self.start_date_entry = ttk.Entry(self.input_duration_frame)
+        self.start_date_entry = DateEntry(self.input_duration_frame)
         self.start_date_entry.grid(row=1, column=0, padx=10)
-        self.end_date_entry = ttk.Entry(self.input_duration_frame)
+        self.end_date_entry = DateEntry(self.input_duration_frame)
         self.end_date_entry.grid(row=1, column=1, padx=10)
 
         self.days_off_label = ttk.Label(self, text="Даты нерабочих дней")
