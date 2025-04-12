@@ -6,6 +6,7 @@ from frames.programs_frames.programs_frame import ProgramsFrame
 from frames.groups_frames.groups_frame import GroupsFrame
 from frames.stages_frame import StagesFrame
 from frames.edu_types_frame import EduTypesFrame
+from frames.uploading_frame import UploadingFrame
 
 
 class MainMenuFrame(BaseFrame):
@@ -60,6 +61,7 @@ class MainMenuFrame(BaseFrame):
         
         ttk.Button(self,
                    text="Выгрузить данные",
+                   command=self.open_uploading_frame,
                    width=button_width,
                    padding=(0, button_height)).pack(pady=padding_between_buttons)
 
@@ -82,6 +84,10 @@ class MainMenuFrame(BaseFrame):
     def open_edu_types_frame(self):
         edu_types_frame = EduTypesFrame(self.master, self)
         edu_types_frame.display_frame()
+    
+    def open_uploading_frame(self):
+        uploading_frame = UploadingFrame(self.master, self)
+        uploading_frame.display_frame()
 
 
 
