@@ -1,0 +1,1 @@
+Инструкция: https://docs.google.com/document/d/185B5hwyeGcrQA24RKaTgQRnfJReOVNwk0sK5AHXeIJM/edit?usp=sharing
